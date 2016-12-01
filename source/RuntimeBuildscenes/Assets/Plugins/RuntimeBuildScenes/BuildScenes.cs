@@ -1,5 +1,7 @@
 ﻿namespace RuntimeBuildscenes
 {
+    using BuildSceneAssets;
+
     using System.Linq;
     using UnityEngine;
 #if UNITY_EDITOR
