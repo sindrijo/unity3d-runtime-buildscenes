@@ -1,4 +1,4 @@
-﻿namespace RuntimeBuildscenes
+namespace RuntimeBuildscenes
 {
     using BuildSceneAssets;
 
@@ -11,6 +11,9 @@
 
     public static class BuildScenes
     {
+#if UNITY_5_5_OR_NEWER
+        [System.Obsolete("Use SceneManager.GetSceneByBuildIndex instead")]
+#endif
         public static BuildSceneRecord[] Records
         {
             get
