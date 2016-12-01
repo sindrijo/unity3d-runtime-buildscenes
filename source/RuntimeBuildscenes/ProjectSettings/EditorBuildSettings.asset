@@ -7,7 +7,7 @@ EditorBuildSettings:
   m_Scenes:
   - enabled: 1
     path: Assets/Plugins/RuntimeBuildScenes/Examples/Scenes/TestScene01.unity
-  - enabled: 1
+  - enabled: 0
     path: Assets/Plugins/RuntimeBuildScenes/Examples/Scenes/TestScene02.unity
   - enabled: 1
     path: Assets/Plugins/RuntimeBuildScenes/Examples/Scenes/TestScene03.unity

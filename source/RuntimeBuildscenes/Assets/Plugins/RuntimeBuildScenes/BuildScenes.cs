@@ -13,12 +13,18 @@
     {
         public static BuildSceneRecord[] Records
         {
-            get { return SInstance.BuildSceneRecords; }
+            get
+            {
+#if UNITY_EDITOR
+                Instance.BuildSceneRecords = GenerateBuildSettingsSceneRecords();
+#endif
+                return Instance.BuildSceneRecords;
+            }
         }
 
         private static BuildScenesAsset s_instance;
 
-        private static BuildScenesAsset SInstance
+        private static BuildScenesAsset Instance
         {
             get
             {
@@ -56,12 +62,14 @@
         private static void OnPostProcessScene()
         {
             if (EditorApplication.isPlayingOrWillChangePlaymode) return;
-            SInstance.BuildSceneRecords = GenerateBuildSettingsSceneRecords();
+            Instance.BuildSceneRecords = GenerateBuildSettingsSceneRecords();
         }
 
         private static BuildSceneRecord[] GenerateBuildSettingsSceneRecords()
         {
-            return EditorBuildSettings.scenes.Select((scene, i) => new BuildSceneRecord(scene.path, i)).ToArray();
+            return EditorBuildSettings.scenes.Where( scene => scene.enabled)
+                                             .Select((scene, i) => new BuildSceneRecord(scene.path, i))
+                                             .ToArray();
         }
 
         private static BuildScenesAsset CreateBuildScenesAsset()
