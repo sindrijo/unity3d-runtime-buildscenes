@@ -1,19 +1,16 @@
+using System.Linq;
+using UnityEngine;
+#if UNITY_EDITOR
+using UnityEditor;
+using UnityEditor.Callbacks;
+#endif
+
 namespace RuntimeBuildscenes
 {
     using BuildSceneAssets;
 
-    using System.Linq;
-    using UnityEngine;
-#if UNITY_EDITOR
-    using UnityEditor;
-    using UnityEditor.Callbacks;
-#endif
-
     public static class BuildScenes
     {
-#if UNITY_5_5_OR_NEWER
-        [System.Obsolete("Use SceneManager.GetSceneByBuildIndex instead")]
-#endif
         public static BuildSceneRecord[] Records
         {
             get
@@ -40,7 +37,7 @@ namespace RuntimeBuildscenes
             }
         }
 
-        [RuntimeInitializeOnLoadMethod]
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         private static void LoadBuildScenesAsset()
         {
             s_instance = Resources.Load<BuildScenesAsset>(typeof(BuildScenesAsset).Name);
@@ -61,7 +58,7 @@ namespace RuntimeBuildscenes
         }
 
 #if UNITY_EDITOR
-        [PostProcessScene]
+        [PostProcessScene] // PostProcessScene was added in version  3.5.2
         private static void OnPostProcessScene()
         {
             if (EditorApplication.isPlayingOrWillChangePlaymode) return;
@@ -70,9 +67,10 @@ namespace RuntimeBuildscenes
 
         private static BuildSceneRecord[] GenerateBuildSettingsSceneRecords()
         {
+            // EditorBuildSettings was added in version 3.2.0
             return EditorBuildSettings.scenes.Where( scene => scene.enabled)
-                                             .Select((scene, i) => new BuildSceneRecord(scene.path, i))
-                                             .ToArray();
+                                      .Select((scene, i) => new BuildSceneRecord(scene.path, i))
+                                      .ToArray();
         }
 
         private static BuildScenesAsset CreateBuildScenesAsset()
@@ -89,7 +87,5 @@ namespace RuntimeBuildscenes
             return buildScenesAsset;
         }
 #endif
-
     }
-
 }

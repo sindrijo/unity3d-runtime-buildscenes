@@ -1,7 +1,9 @@
-﻿namespace RuntimeBuildscenes
+﻿using System;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+
+namespace RuntimeBuildscenes
 {
-    using System;
-    using UnityEngine;
 
     [Serializable]
     public class BuildSceneRecord
@@ -14,8 +16,8 @@
         {
             this.path = path;
             var nameStart = path.LastIndexOf('/') + 1;
-            var nameEnd = (path.Length - 1) - (path.LastIndexOf('.') + 1);
-            name = path.Substring(nameStart, nameEnd);
+            var nameLength = path.LastIndexOf('.') - nameStart;
+            name = path.Substring(nameStart, nameLength);
             this.buildIndex = buildIndex;
         }
 
@@ -32,6 +34,18 @@
         public string Name
         {
             get { return name; }
+        }
+
+        public bool IsLoaded
+        {
+            get
+            {
+#if UNITY_5_3_OR_NEWER
+                return SceneManager.GetSceneByBuildIndex(buildIndex).isLoaded;
+#else
+                return Application.loadedLevel == buildIndex;
+#endif
+            }
         }
 
         public override string ToString()
