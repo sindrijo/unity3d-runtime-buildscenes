@@ -11,6 +11,7 @@ foreach(var buildSceneRecord in buildSettingsSceneRecords)
     Debug.Log(buildSceneRecord.BuildIndex);
     Debug.Log(buildSceneRecord.Name);
     Debug.Log(buildSceneRecord.Path);
+    Debug.Log(buildSceneRecord.IsLoaded);
 }
 
 ```
