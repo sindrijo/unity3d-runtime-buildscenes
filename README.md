@@ -1,5 +1,5 @@
 # unity3d-runtime-buildscenes
-*Note:* Unity 5.5 added ```SceneManager.GetSceneByBuildIndex(int index)``` obsoleting this little plugin.
+*Note:* Unity 5.5 added ```SceneManager.GetSceneByBuildIndex(int index)``` though it can only return scenes that are actually loaded.
 
 The Unity 3d API for scene management is not perfect, it relies on names and paths at run-time yet provides no way to get information about the scenes that were added to the build settings. This project aims to alleviate that by automatically creating/updating an asset with this information when a build happens and also provides a easy way to access the information at run-time in a build.
 # Example
